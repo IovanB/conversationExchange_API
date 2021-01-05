@@ -13,6 +13,8 @@ namespace API.DTOs
         public string PhotoUrl { get; set; }
         public string Age { get; set; }
         public string KnownAs { get; set; }
+        public string NativeLanguage { get; set; }
+        public string TargetLanguage { get; set; }
         public DateTime Created { get; set; } 
         public DateTime LastActive { get; set; }
         public string Gender { get; set; }
