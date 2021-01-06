@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class BuggyController : BaseAPIController
+    public class HttpErrorController : BaseAPIController
     {
         private readonly DataContext dataContext;
 
-        public BuggyController(DataContext dataContext)
+        public HttpErrorController(DataContext dataContext)
         {
             this.dataContext = dataContext;
         }
