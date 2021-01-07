@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -59,11 +60,13 @@ namespace API.Data
                 
         }
 
-        public async Task<IEnumerable<MemberDTO>> GetMembersAsync()
+        public async Task<PageList<MemberDTO>> GetMembersAsync(UserParams userParams)
         {
-            return await context.Users
-                .ProjectTo<MemberDTO>(mapper.ConfigurationProvider)
-                .ToListAsync();
+            var query = context.Users
+                .ProjectTo<MemberDTO>(mapper.ConfigurationProvider).AsNoTracking();
+
+            return await PageList<MemberDTO>.CreateAsync(query,userParams.PageNumber, userParams.Page);
+
         }
     }
 }
