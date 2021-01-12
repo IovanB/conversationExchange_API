@@ -71,7 +71,7 @@ namespace API.Data
         
             query = query.Where(q => q.Username != userParams.CurrentUsername);
 
-            query = query.Where(q => q.Gender == userParams.Gender);
+          //  query = query.Where(q => q.Gender == userParams.Gender);
 
             // choose by user age
             var minDob = DateTime.Today.AddYears(-userParams.MaxAge - 1);
@@ -80,10 +80,10 @@ namespace API.Data
             query = query.Where(d => d.DateOfBirth >= minDob && d.DateOfBirth <= maxDob);
 
             //choose by user's native language
-            query = query.Where(l => l.NativeLanguage == userParams.NativeLanguage); 
+            //query = query.Where(l => l.NativeLanguage == userParams.NativeLanguage); 
             
             //choose by user's target language
-            query = query.Where(t => t.TargetLanguage == userParams.TargetLanguage);
+            //query = query.Where(t => t.TargetLanguage == userParams.TargetLanguage);
 
 
             return await PageList<MemberDTO>.CreateAsync(query.ProjectTo<MemberDTO>(mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.PageSize);
