@@ -34,8 +34,8 @@ namespace API.Controllers
             var user = await userRepository.GetUserByUsernameAsync(User.GetUsername());
             userParams.CurrentUsername = user.Username;
 
-            //if (string.IsNullOrEmpty(userParams.Gender))
-            //    userParams.Gender = user.Gender == "male" ? "female" : "male";
+            if (string.IsNullOrEmpty(userParams.Gender))
+               userParams.Gender = user.Gender == "male" ? "female" : "male";
 
             var users = await userRepository.GetMembersAsync(userParams);
             Response.AddPageHeader(users.CurrentPage,

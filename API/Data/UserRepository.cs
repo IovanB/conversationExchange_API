@@ -71,13 +71,19 @@ namespace API.Data
         
             query = query.Where(q => q.Username != userParams.CurrentUsername);
 
-          //  query = query.Where(q => q.Gender == userParams.Gender);
+            query = query.Where(q => q.Gender == userParams.Gender);
 
             // choose by user age
             var minDob = DateTime.Today.AddYears(-userParams.MaxAge - 1);
             var maxDob = DateTime.Today.AddYears(-userParams.MinAge);
 
             query = query.Where(d => d.DateOfBirth >= minDob && d.DateOfBirth <= maxDob);
+
+            query = userParams.OrderBy switch
+            {
+                "created" => query.OrderByDescending(u => u.Created),
+                _ => query.OrderByDescending(u => u.LastActive)
+            };
 
             //choose by user's native language
             //query = query.Where(l => l.NativeLanguage == userParams.NativeLanguage); 
