@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -13,30 +11,30 @@ namespace API.Middleware
 {
     public class ExceptionMiddleware
     {
-        private readonly RequestDelegate next;
-        private readonly ILogger<ExceptionMiddleware> logger;
-        private readonly IHostEnvironment env;
+        private readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionMiddleware> _logger;
+        private readonly IHostEnvironment _env;
 
         public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, IHostEnvironment env)
         {
-            this.next = next;
-            this.logger = logger;
-            this.env = env;
+            _next = next;
+            _logger = logger;
+            _env = env;
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
             try
             {
-                await next(context);
+                await _next(context);
             }
             catch (Exception e)
             {
-                logger.LogError(e, e.Message);
+                _logger.LogError(e, e.Message);
                 context.Response.ContentType = "application/json";
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
 
-                var response = env.IsDevelopment() ? new ApiException(context.Response.StatusCode, e.Message, e.StackTrace?.ToString())
+                var response = _env.IsDevelopment() ? new ApiException(context.Response.StatusCode, e.Message, e.StackTrace?.ToString())
                     : new ApiException(context.Response.StatusCode, "Internal Server Error");
                 var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
