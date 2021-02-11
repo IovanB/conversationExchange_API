@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +52,19 @@ namespace API.Controllers
             if (await messageRepository.SaveAllAsync()) return Ok(mapper.Map<MessageDto>(message));
 
             return BadRequest("Message not sent");
+        }
+
+        [HttpGet]
+
+        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessagesForuser([FromQuery] MessageParams messageParams)
+        {
+            messageParams.Username = User.GetUsername();
+            var messages = await messageRepository.GetMessageForUser(messageParams);
+
+            Response.AddPageHeader(messages.CurrentPage, messages.PageSize, messages.TotalCount, messages.TotalPages);
+
+            return messages;
+
         }
     }
 }
