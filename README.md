@@ -1,10 +1,10 @@
 # Conversation Exchange API
 
-API built in .Net Core 5 for studying purposes. It's being developed with the latest version of .Net with Swagger (integrated by default), Postgres and Entity Framework.
+API built in .Net Core 5 for studying purposes. It's being developed with the latest version of .Net, Swagger (integrated by default), Postgres and Entity Framework.
 
 The idea behind this API is to create a small social media for foreign language learners. You will be able to find someone to talk to in your target languages in order to boost your studies.
 
-Points already made:
+Points already developed:
 
 1. Entities
 2. Login
@@ -16,7 +16,7 @@ Points already made:
 8. Pagination
 9. Cloudnary integration for upload files
 
-Points being developed:
+Points under development:
 
 1. Pagination
 2. Sorting members
