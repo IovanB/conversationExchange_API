@@ -32,11 +32,11 @@ namespace API.Controllers
 
             var user = mapper.Map<AppUser>(registerDTO);
         
-            using var hmac = new HMACSHA512();
+            //using var hmac = new HMACSHA512();
 
             user.Username = registerDTO.Username;
-            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password));
-            user.PasswordSalt = hmac.Key;
+            //user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password));
+            //user.PasswordSalt = hmac.Key;
 
             dataContext.Users.Add(user);
             await dataContext.SaveChangesAsync();
@@ -60,13 +60,13 @@ namespace API.Controllers
 
             if (user == null) return Unauthorized();
 
-            using var hmac = new HMACSHA512(user.PasswordSalt);
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
+            //using var hmac = new HMACSHA512(user.PasswordSalt);
+            //var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
 
-            for (int i = 0; i < computedHash.Length; i++)
-            {
-                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized();
-            }
+            //for (int i = 0; i < computedHash.Length; i++)
+            //{
+            //    if (computedHash[i] != user.PasswordHash[i]) return Unauthorized();
+            //}
 
             return new UserDto
             {
