@@ -28,11 +28,11 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<MessageDto>> CreateMessage(CreateMessageDto createMessageDto)
         {
-            var username = User.GetUsername();
-            if (username == createMessageDto.RecipientUsername.ToLower())
+            var UserName = User.GetUserName();
+            if (UserName == createMessageDto.RecipientUserName.ToLower())
                 return BadRequest("Not allowed to send yourself a message");
-            var sender = await userRepository.GetUserByUsernameAsync(username);
-            var recipient = await userRepository.GetUserByUsernameAsync(createMessageDto.RecipientUsername);
+            var sender = await userRepository.GetUserByUserNameAsync(UserName);
+            var recipient = await userRepository.GetUserByUserNameAsync(createMessageDto.RecipientUserName);
 
             if (recipient == null) return NotFound();
 
@@ -40,8 +40,8 @@ namespace API.Controllers
             {
                 Sender = sender,
                 Recipient = recipient,
-                SenderUsername = sender.Username,
-                RecipientUsername = recipient.Username,
+                SenderUserName = sender.UserName,
+                RecipientUserName = recipient.UserName,
                 Content = createMessageDto.Content
             };
 
@@ -56,7 +56,7 @@ namespace API.Controllers
 
         public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessagesForuser([FromQuery] MessageParams messageParams)
         {
-            messageParams.Username = User.GetUsername();
+            messageParams.UserName = User.GetUserName();
             var messages = await messageRepository.GetMessageForUser(messageParams);
 
             Response.AddPageHeader(messages.CurrentPage, messages.PageSize, messages.TotalCount, messages.TotalPages);
@@ -65,28 +65,28 @@ namespace API.Controllers
 
         }
 
-        [HttpGet("thread/{username}")]
-        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string username)
+        [HttpGet("thread/{UserName}")]
+        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string UserName)
         {
-            var currentUsername = User.GetUsername();
+            var currentUserName = User.GetUserName();
 
-            return Ok(await messageRepository.GetMessageThread(currentUsername, username));
+            return Ok(await messageRepository.GetMessageThread(currentUserName, UserName));
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteMessagE(int id)
         {
-            var username = User.GetUsername();
+            var UserName = User.GetUserName();
             var message = await messageRepository.GetMessage(id);
 
-            if(message.Sender.Username != username && message.Recipient.Username != username)
+            if(message.Sender.UserName != UserName && message.Recipient.UserName != UserName)
             {
                 return Unauthorized();
             }
 
-            if(message.Sender.Username == username) message.SenderDeleted = true;
+            if(message.Sender.UserName == UserName) message.SenderDeleted = true;
             
-            if(message.Recipient.Username == username ) message.RecipientDeleted = true;
+            if(message.Recipient.UserName == UserName ) message.RecipientDeleted = true;
 
             if (message.SenderDeleted && message.RecipientDeleted) messageRepository.DeleteMessage(message);
 

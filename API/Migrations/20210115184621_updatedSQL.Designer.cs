@@ -66,7 +66,7 @@ namespace API.Migrations
                     b.Property<string>("TargetLanguage")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("UserName")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

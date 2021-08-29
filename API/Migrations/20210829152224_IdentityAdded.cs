@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Migrations
 {
-    public partial class Identity : Migration
+    public partial class IdentityAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -120,13 +120,6 @@ namespace API.Migrations
                 nullable: false,
                 defaultValue: false);
 
-            migrationBuilder.AddColumn<string>(
-                name: "UserName",
-                table: "AspNetUsers",
-                type: "TEXT",
-                maxLength: 256,
-                nullable: true);
-
             migrationBuilder.AddPrimaryKey(
                 name: "PK_AspNetUsers",
                 table: "AspNetUsers",
@@ -215,9 +208,9 @@ namespace API.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     SenderId = table.Column<int>(type: "INTEGER", nullable: false),
-                    SenderUsername = table.Column<string>(type: "TEXT", nullable: true),
+                    SenderUserName = table.Column<string>(type: "TEXT", nullable: true),
                     RecipentId = table.Column<int>(type: "INTEGER", nullable: false),
-                    RecipientUsername = table.Column<string>(type: "TEXT", nullable: true),
+                    RecipientUserName = table.Column<string>(type: "TEXT", nullable: true),
                     RecipientId = table.Column<int>(type: "INTEGER", nullable: true),
                     Content = table.Column<string>(type: "TEXT", nullable: true),
                     DateRead = table.Column<DateTime>(type: "TEXT", nullable: true),
@@ -452,10 +445,6 @@ namespace API.Migrations
 
             migrationBuilder.DropColumn(
                 name: "TwoFactorEnabled",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "UserName",
                 table: "AspNetUsers");
 
             migrationBuilder.RenameTable(

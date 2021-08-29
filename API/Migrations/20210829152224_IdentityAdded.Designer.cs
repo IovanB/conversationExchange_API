@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210607204813_Identity")]
-    partial class Identity
+    [Migration("20210829152224_IdentityAdded")]
+    partial class IdentityAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -134,9 +134,6 @@ namespace API.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Username")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -188,7 +185,7 @@ namespace API.Migrations
                     b.Property<int?>("RecipientId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("RecipientUsername")
+                    b.Property<string>("RecipientUserName")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("SenderDeleted")
@@ -197,7 +194,7 @@ namespace API.Migrations
                     b.Property<int>("SenderId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("SenderUsername")
+                    b.Property<string>("SenderUserName")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

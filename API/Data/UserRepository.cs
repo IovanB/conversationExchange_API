@@ -33,10 +33,10 @@ namespace API.Data
             return await context.Users.FindAsync(id);
         } 
 
-        public async Task<AppUser> GetUserByUsernameAsync(string username)
+        public async Task<AppUser> GetUserByUserNameAsync(string UserName)
         {
             return await context.Users.Include(p=>p.Photos).SingleOrDefaultAsync(user =>
-            user.Username == username);
+            user.UserName == UserName);
         }
 
         public async Task<bool> SaveAllAsync()
@@ -49,10 +49,10 @@ namespace API.Data
             context.Entry(user).State = EntityState.Modified;
         }
 
-        public async Task<MemberDTO> GetMemberAsync(string username)
+        public async Task<MemberDTO> GetMemberAsync(string UserName)
         {
             return await context.Users
-                .Where(x => x.Username == username)
+                .Where(x => x.UserName == UserName)
                 .ProjectTo<MemberDTO>(mapper.ConfigurationProvider).SingleOrDefaultAsync(); 
             //o configurationprovier pega as configuracoes que usamos no automapper, na classe AutoMapperProfiles
 
@@ -69,7 +69,7 @@ namespace API.Data
 
             var query = context.Users.AsQueryable();
         
-            query = query.Where(q => q.Username != userParams.CurrentUsername);
+            query = query.Where(q => q.UserName != userParams.CurrentUserName);
 
             query = query.Where(q => q.Gender == userParams.Gender);
 

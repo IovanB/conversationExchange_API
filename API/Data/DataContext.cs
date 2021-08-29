@@ -1,5 +1,4 @@
 ﻿using API.Entities;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +12,10 @@ namespace API.Data
         {
         }
 
-        //public DbSet<AppUser> Users { get; set; }
+        //public DbSet<AppUser> Users { get; set; } o identity ja tem
         public DbSet<UserLike> Likes { get; set; }
         public DbSet<Message> Messages { get; set; }
-        
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -27,7 +26,7 @@ namespace API.Data
                 .HasForeignKey(ur => ur.UserId)
                 .IsRequired();
 
-                        builder.Entity<AppRole>()
+            builder.Entity<AppRole>()
                 .HasMany(ur => ur.UserRoles)
                 .WithOne(r => r.Role)
                 .HasForeignKey(ur => ur.RoleId)
@@ -41,7 +40,7 @@ namespace API.Data
                 .WithMany(l => l.LikedUser)
                 .HasForeignKey(s => s.SourceUserId)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
             builder.Entity<UserLike>()
                 .HasOne(k => k.LikedUser)
                 .WithMany(l => l.LikedByUser)
